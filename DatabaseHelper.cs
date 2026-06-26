@@ -39,17 +39,17 @@ using MySqlConnector;
 
 namespace CybersecurityChatbotWPF
 {
-    /// <summary>
-    /// Thrown when a database operation fails, wrapping the underlying
-    /// MySqlException with a clearer, user-facing message.
-    /// </summary>
+
+    // Thrown when a database operation fails, wrapping the underlying
+    // MySqlException with a clearer, user-facing message.
+
     public class DatabaseException : Exception
     {
         public DatabaseException(string message, Exception inner) : base(message, inner) { }
     }
 
 
-    /// Provides all MySQL CRUD operations for cybersecurity tasks.
+    // Provides all MySQL CRUD operations for cybersecurity tasks.
     // One instance is created and reused for the lifetime of the app.
     
     public class DatabaseHelper
@@ -59,7 +59,7 @@ namespace CybersecurityChatbotWPF
         private const string Server   = "localhost";
         private const string Port     = "3306";
         private const string UserId   = "root";
-        private const string Password = "";
+        private const string Password = "YourActualPasswordHere";
         private const string Database = "cybersecurity_chatbot";
 
         private string ConnectionString =>
@@ -77,7 +77,7 @@ namespace CybersecurityChatbotWPF
         // Creates the database and `tasks` table if they do not already
         // exist. Safe to call every time the app starts (CREATE ... IF NOT
         // EXISTS is idempotent). Sets IsAvailable based on success.
-        /// </summary>
+
         public async Task<bool> InitialiseDatabaseAsync()
         {
             try
