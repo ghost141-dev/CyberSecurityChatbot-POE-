@@ -9,21 +9,19 @@ using System;
 
 namespace CybersecurityChatbotWPF
 {
-    /// <summary>
-    /// Represents one entry in the activity log: what happened and when.
-    /// </summary>
+
+    // Represents one entry in the activity log: what happened and when.
+
     public class ActivityLogEntry
     {
-        /// <summary>When the action occurred (local time).</summary>
+        // When the action occurred (local time).
         public DateTime Timestamp { get; set; }
 
-        /// <summary>Short human-readable description, e.g. "Task added: 'Enable 2FA'".</summary>
+        //Short human-readable description, e.g. "Task added: 'Enable 2FA'".
         public string Description { get; set; }
 
-        /// <summary>
-        /// Broad category of the action: "Task", "Reminder", "Quiz", "NLP".
-        /// Lets the UI group or icon-decorate entries later if desired.
-        /// </summary>
+        // Broad category of the action: "Task", "Reminder", "Quiz", "NLP".
+        // Lets the UI group or icon-decorate entries later if desired.
         public string Category { get; set; }
 
         public ActivityLogEntry(string description, string category)
@@ -33,9 +31,9 @@ namespace CybersecurityChatbotWPF
             Category    = category;
         }
 
-        /// <summary>
-        /// Formats the entry for display: "[14:32] Task added: 'Enable 2FA'".
-        /// </summary>
+
+        // Formats the entry for display: "[14:32] Task added: 'Enable 2FA'".
+        // </summary>
         public override string ToString() => $"[{Timestamp:HH:mm}] {Description}";
     }
 }

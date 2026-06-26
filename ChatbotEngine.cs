@@ -23,56 +23,50 @@ using System.Text;
 
 namespace CybersecurityChatbotWPF
 {
-    /// <summary>
-    /// Orchestrates the chat session: creates the user profile,
-    /// delegates input processing to ResponseEngine, and surfaces
-    /// session state to the UI.
-    /// </summary>
+
+    // Orchestrates the chat session: creates the user profile,
+    // delegates input processing to ResponseEngine, and surfaces
+   // session state to the UI.
+    // </summary>
     public class ChatbotEngine
     {
         // ── Private fields ─────────────────────────────────────────────
 
-        /// <summary>
-        /// The response engine that owns the knowledge base.
-        /// Marked readonly because it is created once in the constructor
-        /// and never replaced.
-        /// </summary>
+     
+        // The response engine that owns the knowledge base.
+        // Marked readonly because it is created once in the constructor
+        // and never replaced.
+       
         private readonly ResponseEngine _responseEngine;
 
-        /// <summary>
-        /// The current user's profile. Null until Initialise() is called.
-        /// All public properties guard against a null profile.
-        /// </summary>
+        
+        // The current user's profile. Null until Initialise() is called.
+        // All public properties guard against a null profile.
         private UserProfile _currentUser;
 
         // ── Public session properties ──────────────────────────────────
 
-        /// <summary>
-        /// The user's display name, or null if Initialise() has not been called.
-        /// Using a null-conditional operator (?.) avoids a NullReferenceException
-        /// if MainWindow somehow reads this before the name screen is submitted.
-        /// </summary>
+        // The user's display name, or null if Initialise() has not been called.
+        // Using a null-conditional operator (?.) avoids a NullReferenceException
+        // if MainWindow somehow reads this before the name screen is submitted.
         public string UserName => _currentUser?.Name;
 
-        /// <summary>
-        /// Total messages sent this session, or 0 before initialisation.
-        /// The null-coalescing operator (??) provides the default of 0.
-        /// </summary>
+        // ── Public session properties ──────────────────────────────────
+        // Total messages sent this session, or 0 before initialisation.
+        // The null-coalescing operator (??) provides the default of 0.
         public int MessageCount => _currentUser?.MessageCount ?? 0;
 
-        /// <summary>
-        /// True once Initialise() has been called with a valid name.
-        /// MainWindow can use this to guard against premature input.
-        /// </summary>
+        // True once Initialise() has been called with a valid name.
+        // MainWindow can use this to guard against premature input.
         public bool IsReady => _currentUser != null;
 
         // ── Constructor ────────────────────────────────────────────────
 
-        /// <summary>
-        /// Creates the engine and its internal ResponseEngine.
-        /// The ResponseEngine constructor builds the full knowledge base,
-        /// so this constructor is intentionally called once at window startup.
-        /// </summary>
+        // ── Constructor ────────────────────────────────────────────────
+
+        // Creates the engine and its internal ResponseEngine.
+        // The ResponseEngine constructor builds the full knowledge base,
+        // so this constructor is intentionally called once at window startup.
         public ChatbotEngine()
         {
             // ResponseEngine is created here and reused for the entire session.
@@ -82,11 +76,10 @@ namespace CybersecurityChatbotWPF
 
         // ── Session lifecycle ──────────────────────────────────────────
 
-        /// <summary>
-        /// Creates a new UserProfile for the session.
-        /// Must be called before ProcessInput() or GetWelcomeMessage().
-        /// </summary>
-        /// <param name="userName">The name submitted on the name screen.</param>
+        // Creates a new UserProfile for the session.
+        // Must be called before ProcessInput() or GetWelcomeMessage().
+        // </summary>
+        // <param name="userName">The name submitted on the name screen.</param>
         public void Initialise(string userName)
         {
             // UserProfile's constructor handles trimming and null/whitespace guards
@@ -95,11 +88,10 @@ namespace CybersecurityChatbotWPF
 
         // ── Message production ─────────────────────────────────────────
 
-        /// <summary>
-        /// Builds and returns the welcome message shown at the start of the chat.
-        /// Includes the user's name and a formatted topic menu.
-        /// </summary>
-        /// <returns>A multi-line welcome string, or a generic prompt if not initialised.</returns>
+        // Builds and returns the welcome message shown at the start of the chat.
+        // Includes the user's name and a formatted topic menu.
+        // </summary>
+        // <returns>A multi-line welcome string, or a generic prompt if not initialised.</returns>
         public string GetWelcomeMessage()
         {
             // Guard: if called before Initialise(), return a safe fallback
@@ -117,12 +109,11 @@ namespace CybersecurityChatbotWPF
                    "Type 'help' to see the full list at any time.";
         }
 
-        /// <summary>
-        /// Routes the user's input to ResponseEngine and returns the engine's reply.
-        /// Enforces a 500-character input limit to prevent extremely long inputs.
-        /// </summary>
-        /// <param name="userInput">Raw text from the chat input box.</param>
-        /// <returns>An EngineResponse DTO containing the reply text and metadata.</returns>
+        // Routes the user's input to ResponseEngine and returns the engine's reply.
+        // Enforces a 500-character input limit to prevent extremely long inputs.
+       
+        // <param name="userInput">Raw text from the chat input box.</param>
+        // <returns>An EngineResponse DTO containing the reply text and metadata.</returns>
         public EngineResponse ProcessInput(string userInput)
         {
             // Guard: if called before name entry, return a polite prompt
@@ -139,21 +130,18 @@ namespace CybersecurityChatbotWPF
             return _responseEngine.GetResponse(userInput, _currentUser);
         }
 
-        /// <summary>
-        /// Increments the user's message counter.
-        /// Called by MainWindow after each successful send.
-        /// The null-conditional ?. means this is a no-op if called before Initialise().
-        /// </summary>
+        // Increments the user's message counter.
+        // Called by MainWindow after each successful send.
+        // The null-conditional ?. means this is a no-op if called before Initialise().
         public void IncrementMessages() => _currentUser?.IncrementMessages();
 
         // ── Memory panel ───────────────────────────────────────────────
 
-        /// <summary>
-        /// Builds a formatted multi-line string for the sidebar memory panel.
-        /// Shows: name, favourite topic, last topic, last mood, and any custom memory entries.
-        /// Returns an empty string if the session is not yet initialised.
-        /// </summary>
-        /// <returns>A newline-separated summary, or an empty string.</returns>
+        // Builds a formatted multi-line string for the sidebar memory panel.
+        // Shows: name, favourite topic, last topic, last mood, and any custom memory entries.
+        // Returns an empty string if the session is not yet initialised.
+        // </summary>
+        // <returns>A newline-separated summary, or an empty string.</returns>
         public string GetMemorySummary()
         {
             // Not initialised yet — return empty so the panel shows the default hint text
