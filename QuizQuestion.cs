@@ -16,37 +16,29 @@ using System.Collections.Generic;
 
 namespace CybersecurityChatbotWPF
 {
-    /// <summary>
-    /// A single quiz question with its answer options, the correct
-    /// answer, and an explanation shown after the user answers.
-    /// </summary>
+
+    // A single quiz question with its answer options, the correct
+    // answer, and an explanation shown after the user answers.
     public class QuizQuestion
     {
-        /// <summary>The question text shown to the user.</summary>
-        public string Text { get; set; }
+        // The question text shown to the user.
+        public string Text { get; set; }    
 
-        /// <summary>
-        /// The list of selectable answers.
-        /// 4 entries for multiple-choice, 2 ("True"/"False") for T/F.
-        /// </summary>
+
+        // The list of selectable answers.
+        // 4 entries for multiple-choice, 2 ("True"/"False") for T/F.
         public List<string> Options { get; set; }
 
-        /// <summary>
-        /// Zero-based index into Options that is the correct answer.
-        /// </summary>
+        // Zero-based index into Options that is the correct answer.
         public int CorrectIndex { get; set; }
 
-        /// <summary>
-        /// A short explanation shown after the user answers, reinforcing
-        /// the cybersecurity concept regardless of whether they were right.
-        /// </summary>
+        // A short explanation shown after the user answers, reinforcing
+        // the cybersecurity concept regardless of whether they were right.
         public string Explanation { get; set; }
 
-        /// <summary>
-        /// The broad cybersecurity topic this question belongs to
-        /// (e.g. "phishing", "password"). Useful for activity logging
-        /// and for varying feedback by topic.
-        /// </summary>
+        // The broad cybersecurity topic this question belongs to
+        // (e.g. "phishing", "password"). Useful for activity logging
+        // and for varying feedback by topic.
         public string Topic { get; set; }
 
         public QuizQuestion(string text, List<string> options, int correctIndex,
@@ -59,9 +51,7 @@ namespace CybersecurityChatbotWPF
             Topic         = topic;
         }
 
-        /// <summary>
-        /// Returns true if the supplied option index matches the correct answer.
-        /// </summary>
+        // Returns true if the supplied option index matches the correct answer.
         public bool IsCorrect(int selectedIndex) => selectedIndex == CorrectIndex;
     }
-}
+}   
