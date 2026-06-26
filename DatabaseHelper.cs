@@ -48,10 +48,10 @@ namespace CybersecurityChatbotWPF
         public DatabaseException(string message, Exception inner) : base(message, inner) { }
     }
 
-    /// <summary>
+
     /// Provides all MySQL CRUD operations for cybersecurity tasks.
-    /// One instance is created and reused for the lifetime of the app.
-    /// </summary>
+    // One instance is created and reused for the lifetime of the app.
+    
     public class DatabaseHelper
     {
         // ── Connection configuration ───────────────────────────────────
@@ -68,18 +68,15 @@ namespace CybersecurityChatbotWPF
         private string ConnectionStringWithDb =>
             $"Server={Server};Port={Port};Uid={UserId};Pwd={Password};Database={Database};";
 
-        /// <summary>
-        /// True once InitialiseDatabaseAsync() has completed successfully.
-        /// MainWindow checks this before allowing Task Assistant actions,
-        /// so a connection failure is surfaced once, clearly, rather than
-        /// on every individual task action.
-        /// </summary>
+        // True once InitialiseDatabaseAsync() has completed successfully.
+        // MainWindow checks this before allowing Task Assistant actions,
+        // so a connection failure is surfaced once, clearly, rather than
+        // on every individual task action.
         public bool IsAvailable { get; private set; }
 
-        /// <summary>
-        /// Creates the database and `tasks` table if they do not already
-        /// exist. Safe to call every time the app starts (CREATE ... IF NOT
-        /// EXISTS is idempotent). Sets IsAvailable based on success.
+        // Creates the database and `tasks` table if they do not already
+        // exist. Safe to call every time the app starts (CREATE ... IF NOT
+        // EXISTS is idempotent). Sets IsAvailable based on success.
         /// </summary>
         public async Task<bool> InitialiseDatabaseAsync()
         {
@@ -133,9 +130,8 @@ namespace CybersecurityChatbotWPF
             }
         }
 
-        /// <summary>
-        /// Inserts a new task and returns it with its generated Id populated.
-        /// </summary>
+        // Inserts a new task and returns it with its generated Id populated.
+        // </summary>
         public async Task<TaskItem> AddTaskAsync(TaskItem task)
         {
             try
@@ -169,9 +165,7 @@ namespace CybersecurityChatbotWPF
             }
         }
 
-        /// <summary>
-        /// Returns every task, most recently created first.
-        /// </summary>
+        // Returns every task, most recently created first.
         public async Task<List<TaskItem>> GetAllTasksAsync()
         {
             var tasks = new List<TaskItem>();
@@ -210,9 +204,8 @@ namespace CybersecurityChatbotWPF
             }
         }
 
-        /// <summary>
-        /// Marks a task as completed (or not) by Id.
-        /// </summary>
+        // Marks a task as completed (or not) by Id.
+       
         public async Task MarkCompletedAsync(int taskId, bool isCompleted = true)
         {
             try
@@ -236,9 +229,7 @@ namespace CybersecurityChatbotWPF
             }
         }
 
-        /// <summary>
-        /// Permanently deletes a task by Id.
-        /// </summary>
+        // Permanently deletes a task by Id.
         public async Task DeleteTaskAsync(int taskId)
         {
             try
@@ -261,10 +252,8 @@ namespace CybersecurityChatbotWPF
             }
         }
 
-        /// <summary>
-        /// Updates the reminder date on an existing task (e.g. when the
-        /// user adds a reminder to a task after creating it without one).
-        /// </summary>
+        // Updates the reminder date on an existing task (e.g. when the
+        // user adds a reminder to a task after creating it without one).
         public async Task SetReminderAsync(int taskId, DateTime reminderDate)
         {
             try
