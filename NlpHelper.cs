@@ -35,11 +35,11 @@ using System.Linq;
 
 namespace CybersecurityChatbotWPF
 {
-    /// <summary>
-    /// Detects user intent from free-text chat input using keyword and
-    /// phrase matching. Mirrors the "simple string manipulation" approach
-    /// the brief explicitly asks for.
-    /// </summary>
+
+    // Detects user intent from free-text chat input using keyword and
+    // phrase matching. Mirrors the "simple string manipulation" approach
+    // the brief explicitly asks for.
+    // </summary>
     public class NlpHelper
     {
         // ── Trigger phrase banks ─────────────────────────────────────────
@@ -94,12 +94,10 @@ namespace CybersecurityChatbotWPF
 
         // ── Public API ────────────────────────────────────────────────────
 
-        /// <summary>
-        /// Analyses the user's input and returns the best-matching intent,
-        /// along with any extracted detail text. Returns NlpResult.NoMatch
-        /// if nothing recognisable was found — the caller should then fall
-        /// back to ResponseEngine's existing keyword/sentiment handling.
-        /// </summary>
+        // Analyses the user's input and returns the best-matching intent,
+        // along with any extracted detail text. Returns NlpResult.NoMatch
+        // if nothing recognisable was found — the caller should then fall
+        // back to ResponseEngine's existing keyword/sentiment handling.
         public NlpResult Detect(string rawInput)
         {
             if (string.IsNullOrWhiteSpace(rawInput)) return NlpResult.NoMatch;
@@ -142,23 +140,19 @@ namespace CybersecurityChatbotWPF
 
         // ── Private helpers ───────────────────────────────────────────────
 
-        /// <summary>
-        /// True if the input contains ANY phrase from the supplied trigger list.
-        /// This is the "simple string manipulation" (string.Contains) the
-        /// brief explicitly calls for.
-        /// </summary>
+        // True if the input contains ANY phrase from the supplied trigger list.
+        // This is the "simple string manipulation" (string.Contains) the
+        // brief explicitly calls for.
         private bool ContainsAny(string input, List<string> triggers)
         {
             return triggers.Any(trigger => input.Contains(trigger));
         }
 
-        /// <summary>
-        /// Extracts the free-text detail following whichever trigger phrase
-        /// matched, then strips common filler words/punctuation so the
-        /// remaining text reads as a clean task title.
-        /// Example: "add a task to enable 2fa" -> "enable 2fa"
-        ///          "remind me to update my password tomorrow" -> "update my password tomorrow"
-        /// </summary>
+        // Extracts the free-text detail following whichever trigger phrase
+        // matched, then strips common filler words/punctuation so the
+        // remaining text reads as a clean task title.
+        // Example: "add a task to enable 2fa" -> "enable 2fa"
+        //          "remind me to update my password tomorrow" -> "update my password tomorrow"
         private string ExtractDetail(string input, List<string> triggers)
         {
             // Find which trigger actually matched and where
@@ -190,12 +184,10 @@ namespace CybersecurityChatbotWPF
             return remainder;
         }
 
-        /// <summary>
-        /// Attempts to pull a simple timeframe phrase out of free text,
-        /// e.g. "in 3 days", "tomorrow", "in a week". Used by the Task
-        /// Assistant to set a reminder date from natural phrasing.
-        /// Returns null if no recognisable timeframe is found.
-        /// </summary>
+        // Attempts to pull a simple timeframe phrase out of free text,
+        // e.g. "in 3 days", "tomorrow", "in a week". Used by the Task
+        // Assistant to set a reminder date from natural phrasing.
+        // Returns null if no recognisable timeframe is found.
         public TimeSpan? ExtractTimeframe(string input)
         {
             input = input.ToLower();
