@@ -65,7 +65,8 @@ creates the database and table on first run** — no manual SQL is required.
 > private const string Server   = "localhost";
 > private const string Port     = "3306";
 > private const string UserId   = "root";
-> private const string Password = "";
+> private const string Password = "YOUR_OWN_MYSQL_PASSWORD";
+> private const string Database = "cybersecurity_chatbot";
 > ```
 
 ### What happens on startup
