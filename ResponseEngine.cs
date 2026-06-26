@@ -44,51 +44,41 @@ namespace CybersecurityChatbotWPF
     //
     // Signature: takes a List<string> and returns one string.
     // Usage: _selector(list)  →  list[_random.Next(list.Count)]
-    /// <summary>
-    /// Delegate that selects one string from a list.
-    /// Used by ResponseEngine to randomly pick a tip from a topic's response list.
-    /// </summary>
+
+    // Delegate that selects one string from a list.
+    // Used by ResponseEngine to randomly pick a tip from a topic's response list.
     public delegate string ResponseSelector(List<string> responses);
 
-    /// <summary>
-    /// Contains the knowledge base (topic responses, sentiment responses) and
-    /// the logic to match user input to the appropriate reply.
-    /// </summary>
+    // Contains the knowledge base (topic responses, sentiment responses) and
+    // the logic to match user input to the appropriate reply.
     public class ResponseEngine
     {
         // ── Private fields ─────────────────────────────────────────────
 
-        /// <summary>
-        /// Shared Random instance. A single instance is more efficient than
-        /// creating a new Random() on every method call (avoids same-seed issues
-        /// when called in rapid succession).
-        /// </summary>
+        // Shared Random instance. A single instance is more efficient than
+        // creating a new Random() on every method call (avoids same-seed issues
+        // when called in rapid succession).
         private readonly Random _random = new Random();
 
-        /// <summary>
-        /// The delegate instance used to select one response from a list.
-        /// Assigned a lambda in the constructor: picks a random element.
-        /// </summary>
+
+        // The delegate instance used to select one response from a list.
+        // Assigned a lambda in the constructor: picks a random element.
         private readonly ResponseSelector _selector;
 
-        /// <summary>
+
         /// The main knowledge base.
-        /// Key   — topic keyword (e.g. "phishing", "password").
-        /// Value — list of 2–3 response strings for that topic.
-        /// OrdinalIgnoreCase comparer ensures "Password" and "password" map to the same key.
-        /// </summary>
+        // Key   — topic keyword (e.g. "phishing", "password").
+        // Value — list of 2–3 response strings for that topic.
+        // OrdinalIgnoreCase comparer ensures "Password" and "password" map to the same key.
         private readonly Dictionary<string, List<string>> _responses;
 
-        /// <summary>
-        /// Maps emotional keywords to empathetic response strings.
-        /// Checked after keyword matching and follow-up detection.
-        /// </summary>
+        // Maps emotional keywords to empathetic response strings.
+        // Checked after keyword matching and follow-up detection.
         private readonly Dictionary<string, string> _sentimentResponses;
 
-        /// <summary>
-        /// Phrases that signal the user wants more information on the last topic.
-        /// Checked only when no keyword in _responses was matched first.
-        /// </summary>
+        //
+        // Phrases that signal the user wants more information on the last topic.
+        // Checked only when no keyword in _responses was matched first.
         private readonly List<string> _followUpKeywords = new List<string>
         {
             "tell me more", "give me another", "another tip", "next tip",
@@ -97,10 +87,8 @@ namespace CybersecurityChatbotWPF
 
         // ── Constructor ────────────────────────────────────────────────
 
-        /// <summary>
-        /// Builds the knowledge base and assigns the delegate.
-        /// Called once when ChatbotEngine is constructed.
-        /// </summary>
+        // Builds the knowledge base and assigns the delegate.
+        // Called once when ChatbotEngine is constructed.
         public ResponseEngine()
         {
             // ── Assign the delegate ────────────────────────────────────
@@ -365,13 +353,12 @@ namespace CybersecurityChatbotWPF
 
         // ── Core response method ───────────────────────────────────────
 
-        /// <summary>
-        /// Determines the best response for the given user input.
-        /// Checks four handlers in priority order and returns the first match.
-        /// </summary>
-        /// <param name="userInput">Raw input from the chat box (already trimmed by the caller).</param>
-        /// <param name="user">The active UserProfile — read and updated during processing.</param>
-        /// <returns>An EngineResponse containing the reply text and metadata.</returns>
+        // Determines the best response for the given user input.
+        // Checks four handlers in priority order and returns the first match.
+        // </summary>
+        // <param name="userInput">Raw input from the chat box (already trimmed by the caller).</param>
+        // <param name="user">The active UserProfile — read and updated during processing.</param>
+        // <returns>An EngineResponse containing the reply text and metadata.</returns>
         public EngineResponse GetResponse(string userInput, UserProfile user)
         {
             // Guard: should not happen because MainWindow trims before calling,
@@ -460,12 +447,12 @@ namespace CybersecurityChatbotWPF
             return false;
         }
 
-        /// <summary>
-        /// Scans the input for interest-declaration phrases and context sentences,
-        /// then stores findings in the user's Memory dictionary.
-        /// </summary>
-        /// <param name="input">Lowercased user input.</param>
-        /// <param name="user">The active UserProfile to update.</param>
+       
+        // Scans the input for interest-declaration phrases and context sentences,
+        // then stores findings in the user's Memory dictionary.
+        // </summary>
+        // <param name="input">Lowercased user input.</param>
+        // <param name="user">The active UserProfile to update.</param>
         private void ExtractAndStoreMemory(string input, UserProfile user)
         {
             // ── Interest detection ─────────────────────────────────────
@@ -499,13 +486,13 @@ namespace CybersecurityChatbotWPF
             }
         }
 
-        /// <summary>
-        /// Appends a personalised reminder to the response if the matched topic
-        /// matches the user's stated interest.
-        /// </summary>
-        /// <param name="response">The raw response string from the knowledge base.</param>
-        /// <param name="user">The active UserProfile.</param>
-        /// <returns>The original response, possibly with an appended interest reminder.</returns>
+
+        // Appends a personalised reminder to the response if the matched topic
+        // matches the user's stated interest.
+        // </summary>
+        // <param name="response">The raw response string from the knowledge base.</param>
+        // <param name="user">The active UserProfile.</param>
+        // <returns>The original response, possibly with an appended interest reminder.</returns>
         private string PersonaliseResponse(string response, UserProfile user)
         {
             // Recall the stored interest (returns null if not set)
@@ -522,12 +509,11 @@ namespace CybersecurityChatbotWPF
             return response;
         }
 
-        /// <summary>
-        /// Returns a randomly selected fallback message including the user's name.
-        /// Called when no keyword, follow-up, or sentiment matched.
-        /// </summary>
-        /// <param name="userName">The user's display name from UserProfile.</param>
-        /// <returns>A friendly rephrasing prompt.</returns>
+        // Returns a randomly selected fallback message including the user's name.
+        // Called when no keyword, follow-up, or sentiment matched.
+        // </summary>
+        // <param name="userName">The user's display name from UserProfile.</param>
+        // <returns>A friendly rephrasing prompt.</returns>
         private string GetFallback(string userName)
         {
             // If somehow the name is empty, use "there" as a neutral address
@@ -546,11 +532,9 @@ namespace CybersecurityChatbotWPF
 
         // ── Public utility ─────────────────────────────────────────────
 
-        /// <summary>
-        /// Exposes the set of all topic keys in the knowledge base.
-        /// Could be used by the UI to dynamically generate sidebar buttons.
-        /// Returns IEnumerable to avoid exposing the internal Dictionary directly.
-        /// </summary>
+        // Exposes the set of all topic keys in the knowledge base.
+        // Could be used by the UI to dynamically generate sidebar buttons.
+        // Returns IEnumerable to avoid exposing the internal Dictionary directly.
         public IEnumerable<string> GetTopicKeys() => _responses.Keys;
     }
 }
