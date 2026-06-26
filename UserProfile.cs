@@ -22,64 +22,49 @@ using System.Collections.Generic;
 
 namespace CybersecurityChatbotWPF
 {
-    /// <summary>
-    /// Stores all per-user state for the current chat session.
-    /// One instance is created per session and shared between
-    /// ChatbotEngine and ResponseEngine.
-    /// </summary>
+
+    // Stores all per-user state for the current chat session.
+    // One instance is created per session and shared between
+    // ChatbotEngine and ResponseEngine.
     public class UserProfile
     {
         // ── Auto-properties ───────────────────────────────────────────
 
-        /// <summary>
-        /// The user's display name, entered on the name screen.
-        /// Defaults to "User" if the submitted name is blank.
-        /// </summary>
+        // The user's display name, entered on the name screen.
+        // Defaults to "User" if the submitted name is blank.
         public string Name { get; set; }
 
-        /// <summary>
-        /// Running total of messages the user has sent this session.
-        /// Incremented via IncrementMessages() after each send.
-        /// </summary>
+        // Running total of messages the user has sent this session.
+        // Incremented via IncrementMessages() after each send.
         public int MessageCount { get; set; }
 
-        /// <summary>
-        /// The keyword of the most recent topic that matched in ResponseEngine
-        /// (e.g. "phishing", "password"). Used by the follow-up handler so
-        /// "tell me more" continues the same topic.
-        /// </summary>
+        // The keyword of the most recent topic that matched in ResponseEngine
+        // (e.g. "phishing", "password"). Used by the follow-up handler so
+        // "tell me more" continues the same topic.
         public string LastTopic { get; set; }
 
-        /// <summary>
-        /// The topic the user has explicitly expressed interest in
-        /// (e.g. "I'm interested in privacy" → FavouriteTopic = "privacy").
-        /// Used by PersonaliseResponse() to append a helpful reminder.
-        /// </summary>
+        // The topic the user has explicitly expressed interest in
+        // (e.g. "I'm interested in privacy" → FavouriteTopic = "privacy").
+        // Used by PersonaliseResponse() to append a helpful reminder.
         public string FavouriteTopic { get; set; }
 
-        /// <summary>
-        /// The most recently detected sentiment word
-        /// (e.g. "worried", "frustrated"). Displayed in the memory panel
-        /// as the user's current mood.
-        /// </summary>
+        // The most recently detected sentiment word
+        // (e.g. "worried", "frustrated"). Displayed in the memory panel
+        // as the user's current mood.
         public string LastSentiment { get; set; }
 
-        /// <summary>
-        /// General-purpose key-value memory store for the session.
-        /// Keys are short strings like "interest" or "context".
-        /// Values are strings extracted from the user's messages.
-        /// </summary>
+        // General-purpose key-value memory store for the session.
+        // Keys are short strings like "interest" or "context".
+        // Values are strings extracted from the user's messages.
         public Dictionary<string, string> Memory { get; set; }
 
         // ── Constructor ───────────────────────────────────────────────
 
-        /// <summary>
-        /// Initialises a new user profile for the session.
-        /// </summary>
-        /// <param name="name">
-        ///   The name the user entered. Whitespace-only names are replaced
-        ///   with the default "User" to avoid empty display names.
-        /// </param>
+        // Initialises a new user profile for the session.
+        // <param name="name">
+        //   The name the user entered. Whitespace-only names are replaced
+        //   with the default "User" to avoid empty display names.
+        // </param>
         public UserProfile(string name)
         {
             // Guard: if the user submitted spaces or nothing, use a default name
@@ -95,33 +80,27 @@ namespace CybersecurityChatbotWPF
 
         // ── Methods ───────────────────────────────────────────────────
 
-        /// <summary>
-        /// Increments the message counter by one.
-        /// Called by MainWindow after every successful send.
-        /// Expression-bodied for brevity (C# 6+ feature).
-        /// </summary>
+        // Increments the message counter by one.
+        // Called by MainWindow after every successful send.
+        // Expression-bodied for brevity (C# 6+ feature).
         public void IncrementMessages() => MessageCount++;
 
-        /// <summary>
-        /// Stores or overwrites a value in the memory dictionary.
-        /// If the key already exists, the previous value is replaced.
-        /// </summary>
-        /// <param name="key">Short category label (e.g. "interest").</param>
-        /// <param name="value">The value to remember (e.g. "phishing").</param>
+        // Stores or overwrites a value in the memory dictionary.
+        // If the key already exists, the previous value is replaced.
+        // <param name="key">Short category label (e.g. "interest").</param>
+        // <param name="value">The value to remember (e.g. "phishing").</param>
         public void Remember(string key, string value)
         {
             // Dictionary indexer automatically adds or replaces the entry
             Memory[key] = value;
         }
 
-        /// <summary>
-        /// Retrieves a value from the memory dictionary.
-        /// </summary>
-        /// <param name="key">The key to look up.</param>
-        /// <returns>
-        ///   The stored value, or <c>null</c> if the key does not exist.
-        ///   Using TryGetValue avoids a KeyNotFoundException on missing keys.
-        /// </returns>
+        // Retrieves a value from the memory dictionary.
+        // <param name="key">The key to look up.</param>
+        // <returns>
+        //   The stored value, or <c>null</c> if the key does not exist.
+        //   Using TryGetValue avoids a KeyNotFoundException on missing keys.
+        // </returns>
         public string Recall(string key)
         {
             // TryGetValue is the safe way to read a dictionary without throwing
