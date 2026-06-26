@@ -20,37 +20,31 @@ using System.Text;
 
 namespace CybersecurityChatbotWPF
 {
-    /// <summary>
-    /// In-memory activity log for the current session.
-    /// Thread-unsafe by design — all calls happen on the WPF UI thread.
-    /// </summary>
+
+    // In-memory activity log for the current session.
+    // Thread-unsafe by design — all calls happen on the WPF UI thread.
     public class ActivityLogger
     {
-        /// <summary>
-        /// Default number of entries shown by GetRecentFormatted()
-        /// before the user requests "show more". Kept within the
-        /// brief's required 5–10 range.
-        /// </summary>
+
+        // Default number of entries shown by GetRecentFormatted()
+        // before the user requests "show more". Kept within the
+        // brief's required 5–10 range.
         private const int DefaultDisplayCount = 8;
 
-        /// <summary>The full chronological list of logged actions.</summary>
+        // The full chronological list of logged actions.
         private readonly List<ActivityLogEntry> _entries = new List<ActivityLogEntry>();
 
-        /// <summary>Total number of entries logged this session.</summary>
+        // Total number of entries logged this session.
         public int Count => _entries.Count;
 
-        /// <summary>
-        /// Adds a new entry to the log. Called by the Task Assistant,
-        /// Quiz, and NLP handlers whenever a significant action occurs.
-        /// </summary>
+        // Adds a new entry to the log. Called by the Task Assistant,
+        // Quiz, and NLP handlers whenever a significant action occurs.
         public void Log(string description, string category)
         {
             _entries.Add(new ActivityLogEntry(description, category));
         }
 
-        /// <summary>
-        /// Returns the most recent entries, newest first, up to `count`.
-        /// </summary>
+        // Returns the most recent entries, newest first, up to `count`.
         public List<ActivityLogEntry> GetRecent(int count = DefaultDisplayCount)
         {
             return _entries
@@ -66,17 +60,16 @@ namespace CybersecurityChatbotWPF
             return _entries.AsEnumerable().Reverse().ToList();
         }
 
-        /// <summary>
-        /// Builds a chat-friendly formatted string of the most recent entries,
-        /// matching the example format in the brief:
-        ///   "Here's a summary of recent actions:
-        ///    1. Task added: '...'
-        ///    2. Quiz started..."
-        /// </summary>
-        /// <param name="showAll">
-        /// If true, includes every entry (the "Show more" option);
-        /// otherwise limited to DefaultDisplayCount.
-        /// </param>
+        // Builds a chat-friendly formatted string of the most recent entries,
+        // matching the example format in the brief:
+        //   "Here's a summary of recent actions:
+        //    1. Task added: '...'
+        //    2. Quiz started..."
+
+        // <param name="showAll">
+        // If true, includes every entry (the "Show more" option);
+        // otherwise limited to DefaultDisplayCount.
+        // </param>
         public string GetFormattedSummary(bool showAll = false)
         {
             if (_entries.Count == 0)
