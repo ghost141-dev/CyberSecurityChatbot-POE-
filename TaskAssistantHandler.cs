@@ -20,10 +20,9 @@ using System.Threading.Tasks;
 
 namespace CybersecurityChatbotWPF
 {
-    /// <summary>
-    /// Coordinates task creation, reminders, completion, and deletion,
-    /// logging every significant action to the ActivityLogger.
-    /// </summary>
+
+    // Coordinates task creation, reminders, completion, and deletion,
+    // logging every significant action to the ActivityLogger.
     public class TaskAssistantHandler
     {
         private readonly DatabaseHelper _db;
@@ -37,10 +36,8 @@ namespace CybersecurityChatbotWPF
             _nlp    = nlp;
         }
 
-        /// <summary>
-        /// Adds a new task with an optional reminder date, persists it,
-        /// logs the action, and returns a chat-style confirmation.
-        /// </summary>
+        // Adds a new task with an optional reminder date, persists it,
+        // logs the action, and returns a chat-style confirmation.
         public async Task<(bool Success, string Message, TaskItem CreatedTask)> AddTaskAsync(
             string title, string description, DateTime? reminderDate)
         {
@@ -69,9 +66,7 @@ namespace CybersecurityChatbotWPF
             }
         }
 
-        /// <summary>
-        /// Sets or updates the reminder date on an existing task by Id.
-        /// </summary>
+        // Sets or updates the reminder date on an existing task by Id.
         public async Task<(bool Success, string Message)> SetReminderAsync(int taskId, DateTime reminderDate, string taskTitle)
         {
             if (!_db.IsAvailable)
@@ -89,11 +84,9 @@ namespace CybersecurityChatbotWPF
             }
         }
 
-        /// <summary>
-        /// Convenience overload: parses a natural-language timeframe
-        /// (e.g. "in 3 days") via NlpHelper, then sets the reminder.
-        /// Used when the request came from chat rather than the GUI panel.
-        /// </summary>
+        // Convenience overload: parses a natural-language timeframe
+        // (e.g. "in 3 days") via NlpHelper, then sets the reminder.
+        // Used when the request came from chat rather than the GUI panel.
         public async Task<(bool Success, string Message)> SetReminderFromPhraseAsync(int taskId, string taskTitle, string timeframePhrase)
         {
             TimeSpan? offset = _nlp.ExtractTimeframe(timeframePhrase);
@@ -101,9 +94,7 @@ namespace CybersecurityChatbotWPF
             return await SetReminderAsync(taskId, reminderDate, taskTitle);
         }
 
-        /// <summary>
-        /// Retrieves all tasks for display in the Task Assistant panel.
-        /// </summary>
+        // Retrieves all tasks for display in the Task Assistant panel.
         public async Task<List<TaskItem>> GetAllTasksAsync()
         {
             if (!_db.IsAvailable) return new List<TaskItem>();
@@ -117,9 +108,8 @@ namespace CybersecurityChatbotWPF
             }
         }
 
-        /// <summary>
-        /// Marks a task complete and logs the action.
-        /// </summary>
+
+        // Marks a task complete and logs the action.
         public async Task<(bool Success, string Message)> CompleteTaskAsync(int taskId, string taskTitle)
         {
             if (!_db.IsAvailable)
@@ -137,9 +127,7 @@ namespace CybersecurityChatbotWPF
             }
         }
 
-        /// <summary>
-        /// Deletes a task and logs the action.
-        /// </summary>
+        // Deletes a task and logs the action.
         public async Task<(bool Success, string Message)> DeleteTaskAsync(int taskId, string taskTitle)
         {
             if (!_db.IsAvailable)
@@ -157,12 +145,11 @@ namespace CybersecurityChatbotWPF
             }
         }
 
-        /// <summary>
-        /// Finds the best-matching task by a (possibly partial) title,
-        /// used when NLP detects a complete/delete intent from free text
-        /// like "mark task password as complete". Case-insensitive
-        /// substring match against current titles.
-        /// </summary>
+       
+        // Finds the best-matching task by a (possibly partial) title,
+        // used when NLP detects a complete/delete intent from free text
+        // like "mark task password as complete". Case-insensitive
+        // substring match against current titles.
         public async Task<TaskItem> FindTaskByTitleFragmentAsync(string fragment)
         {
             if (string.IsNullOrWhiteSpace(fragment)) return null;
@@ -171,9 +158,7 @@ namespace CybersecurityChatbotWPF
                 t.Title.IndexOf(fragment, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
-        /// <summary>
-        /// Formats the full task list for a chat-style "view tasks" reply.
-        /// </summary>
+        // Formats the full task list for a chat-style "view tasks" reply.
         public string FormatTaskListForChat(List<TaskItem> tasks)
         {
             if (tasks == null || tasks.Count == 0)
