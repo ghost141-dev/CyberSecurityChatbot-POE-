@@ -1,0 +1,43 @@
+name: POE (Part 3) CI — Build & Check
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+
+jobs:
+  build:
+    name: Build WPF Application (.NET 4.8)
+    runs-on: windows-latest          # WPF requires Windows
+
+    steps:
+      # 1. Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up MSBuild (comes with Visual Studio on windows-latest)
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      # 3. Restore NuGet packages
+      - name: Restore NuGet packages
+        run: dotnet restore CybersecurityChatbotWPF/CybersecurityChatbotWPF.csproj
+
+      # 4. Build the WPF project in Release configuration
+      - name: Build project
+        run: dotnet build CybersecurityChatbotWPF/CybersecurityChatbotWPF.csproj
+             --configuration Release
+             --no-restore
+             /p:Platform="Any CPU"
+
+      # 5. Verify the compiled executable exists
+      - name: Verify build output
+        run: |
+          if (Test-Path "CybersecurityChatbotWPF/bin/Release/net48/CybersecurityChatbotWPF.exe") {
+            Write-Host "✅ Build successful — CybersecurityChatbotWPF.exe found."
+          } else {
+            Write-Error "❌ Build output not found."
+            exit 1
+          }
+        shell: pwsh

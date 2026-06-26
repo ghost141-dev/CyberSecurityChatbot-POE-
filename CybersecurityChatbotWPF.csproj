@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!-- Ensure the project actually targets net48 so the assets file contains a net48 target -->
+    <TargetFramework>net48</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <!-- If your project should multi-target, replace TargetFramework with TargetFrameworks, e.g.
+  <PropertyGroup>
+    <TargetFrameworks>net48;net5.0-windows</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  -->
+
+  <!-- Keep your existing PackageReference items and other configuration here -->
+  <ItemGroup>
+    <!-- MySqlConnector: modern, fully-async ADO.NET driver for MySQL,
+         used by DatabaseHelper.cs for the Task Assistant's persistence. -->
+    <PackageReference Include="MySqlConnector" Version="2.4.0" />
+  </ItemGroup>
+</Project>
