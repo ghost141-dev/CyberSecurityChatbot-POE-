@@ -38,34 +38,31 @@ namespace CybersecurityChatbotWPF
 
         private readonly Random _random = new Random();
 
-        /// <summary>
-        /// The full question bank. Built once in the constructor.
-        /// 12 questions covering phishing, password safety, safe browsing,
-        /// social engineering, malware, 2FA, scams, and mobile security.
-        /// </summary>
+
+        // The full question bank. Built once in the constructor.
+        // 12 questions covering phishing, password safety, safe browsing,
+        // social engineering, malware, 2FA, scams, and mobile security.
         private readonly List<QuizQuestion> _questionBank;
 
-        /// <summary>
-        /// The shuffled question order for the CURRENT attempt.
-        /// Re-created every time StartNewQuiz() is called.
-        /// </summary>
+        // The shuffled question order for the CURRENT attempt.
+        // Re-created every time StartNewQuiz() is called.
         private List<QuizQuestion> _activeQuestions;
 
         // ── Public session state ───────────────────────────────────────
 
-        /// <summary>Index of the question currently being shown (0-based).</summary>
+        // Index of the question currently being shown (0-based).
         public int CurrentIndex { get; private set; }
 
-        /// <summary>Number of questions answered correctly so far.</summary>
+        // Number of questions answered correctly so far.
         public int Score { get; private set; }
 
-        /// <summary>Total number of questions in this attempt.</summary>
+        // Total number of questions in this attempt.
         public int TotalQuestions => _activeQuestions?.Count ?? 0;
 
-        /// <summary>True once every question has been answered.</summary>
+        // True once every question has been answered.
         public bool IsFinished => _activeQuestions != null && CurrentIndex >= _activeQuestions.Count;
 
-        /// <summary>True once StartNewQuiz() has been called at least once.</summary>
+        // True once StartNewQuiz() has been called at least once.
         public bool HasStarted => _activeQuestions != null;
 
         // ── Constructor ────────────────────────────────────────────────
@@ -77,10 +74,9 @@ namespace CybersecurityChatbotWPF
 
         // ── Public methods ──────────────────────────────────────────────
 
-        /// <summary>
-        /// Begins a fresh quiz attempt: shuffles the question bank order,
-        /// resets the score and index to zero.
-        /// </summary>
+        
+        // Begins a fresh quiz attempt: shuffles the question bank order,
+        // resets the score and index to zero.
         public void StartNewQuiz()
         {
             // OrderBy with a random key is a simple, idiomatic LINQ shuffle.
@@ -89,25 +85,22 @@ namespace CybersecurityChatbotWPF
             Score = 0;
         }
 
-        /// <summary>
-        /// Returns the question currently due to be displayed, or null
-        /// if the quiz has not started or has already finished.
-        /// </summary>
+        // Returns the question currently due to be displayed, or null
+        // if the quiz has not started or has already finished.
         public QuizQuestion GetCurrentQuestion()
         {
             if (_activeQuestions == null || IsFinished) return null;
             return _activeQuestions[CurrentIndex];
         }
 
-        /// <summary>
-        /// Records the user's answer for the current question, updates the
-        /// score, and advances to the next question.
-        /// </summary>
-        /// <param name="selectedIndex">The option index the user chose.</param>
-        /// <returns>
-        /// A tuple: (wasCorrect, explanation) so the GUI can show immediate
-        /// feedback before moving on to the next question.
-        /// </returns>
+        // Records the user's answer for the current question, updates the
+        // score, and advances to the next question.
+        
+        // <param name="selectedIndex">The option index the user chose.</param>
+        // <returns>
+        // A tuple: (wasCorrect, explanation) so the GUI can show immediate
+        // feedback before moving on to the next question.
+        // </returns>
         public (bool WasCorrect, string Explanation) SubmitAnswer(int selectedIndex)
         {
             QuizQuestion current = GetCurrentQuestion();
@@ -121,10 +114,8 @@ namespace CybersecurityChatbotWPF
             return (correct, current.Explanation);
         }
 
-        /// <summary>
-        /// Builds a tiered feedback message based on the final score,
-        /// as required by the brief ("Great job!" vs "Keep learning").
-        /// </summary>
+        // Builds a tiered feedback message based on the final score,
+        // as required by the brief ("Great job!" vs "Keep learning").
         public string GetScoreSummary()
         {
             double percentage = TotalQuestions == 0 ? 0 : (double)Score / TotalQuestions * 100;
@@ -142,11 +133,9 @@ namespace CybersecurityChatbotWPF
 
         // ── Question bank ───────────────────────────────────────────────
 
-        /// <summary>
-        /// Builds the fixed bank of 12 cybersecurity questions.
-        /// Mix of multiple-choice (4 options) and true/false (2 options),
-        /// matching the brief's requirement for variety.
-        /// </summary>
+        // Builds the fixed bank of 12 cybersecurity questions.
+        // Mix of multiple-choice (4 options) and true/false (2 options),
+        // matching the brief's requirement for variety.
         private List<QuizQuestion> BuildQuestionBank()
         {
             return new List<QuizQuestion>
@@ -238,3 +227,4 @@ namespace CybersecurityChatbotWPF
         }
     }
 }
+    
