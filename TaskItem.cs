@@ -11,29 +11,25 @@ using System;
 
 namespace CybersecurityChatbotWPF
 {
-    /// <summary>
-    /// A cybersecurity task with an optional reminder, persisted to MySQL.
-    /// </summary>
+
+    // A cybersecurity task with an optional reminder, persisted to MySQL.
+
     public class TaskItem
     {
-        /// <summary>
-        /// Primary key from the database. 0 for a task not yet saved.
-        /// </summary>
+        // Primary key from the database. 0 for a task not yet saved.
         public int Id { get; set; }
 
-        /// <summary>Short task title, e.g. "Enable two-factor authentication".</summary>
+        // Short task title, e.g. "Enable two-factor authentication".
         public string Title { get; set; }
 
-        /// <summary>Longer description shown in the task list.</summary>
+        // Longer description shown in the task list.
         public string Description { get; set; }
 
-        /// <summary>
-        /// The date the reminder should fire, or null if the user
-        /// did not request a reminder for this task.
-        /// </summary>
+        // The date the reminder should fire, or null if the user
+        // did not request a reminder for this task.
         public DateTime? ReminderDate { get; set; }
 
-        /// <summary>True once the user has marked this task as done.</summary>
+        // True once the user has marked this task as done.
         public bool IsCompleted { get; set; }
 
         /// <summary>When the task was first created.</summary>
@@ -50,10 +46,8 @@ namespace CybersecurityChatbotWPF
             CreatedAt    = DateTime.Now;
         }
 
-        /// <summary>
-        /// Human-friendly one-line summary, used in chat replies and logs.
-        /// e.g. "Enable two-factor authentication (Reminder: 2026-07-01)"
-        /// </summary>
+        // Human-friendly one-line summary, used in chat replies and logs.
+        // e.g. "Enable two-factor authentication (Reminder: 2026-07-01)"
         public override string ToString()
         {
             string reminderPart = ReminderDate.HasValue
