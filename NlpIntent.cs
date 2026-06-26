@@ -8,11 +8,10 @@
 
 namespace CybersecurityChatbotWPF
 {
-    /// <summary>
-    /// The set of user intents the simulated NLP layer can detect.
-    /// "None" means no recognised intent — falls through to the
-    /// existing keyword/sentiment/fallback handling in ResponseEngine.
-    /// </summary>
+
+    // The set of user intents the simulated NLP layer can detect.
+    // "None" means no recognised intent — falls through to the
+    // existing keyword/sentiment/fallback handling in ResponseEngine.
     public enum NlpIntent
     {
         None,
@@ -26,20 +25,16 @@ namespace CybersecurityChatbotWPF
         ShowMoreActivityLog
     }
 
-    /// <summary>
-    /// Result of running NlpHelper.Detect() on a user message:
-    /// which intent was recognised, plus any free-text detail
-    /// extracted from the sentence (e.g. the task title).
-    /// </summary>
+    // Result of running NlpHelper.Detect() on a user message:
+    // which intent was recognised, plus any free-text detail
+    // extracted from the sentence (e.g. the task title).
     public class NlpResult
     {
         public NlpIntent Intent { get; set; }
 
-        /// <summary>
-        /// Free-text detail extracted from the message — e.g. for
-        /// AddTask, this is the task description; for SetReminder,
-        /// the timeframe phrase (e.g. "in 3 days", "tomorrow").
-        /// </summary>
+        // Free-text detail extracted from the message — e.g. for
+        // AddTask, this is the task description; for SetReminder,
+        // the timeframe phrase (e.g. "in 3 days", "tomorrow").
         public string Detail { get; set; }
 
         public NlpResult(NlpIntent intent, string detail = null)
